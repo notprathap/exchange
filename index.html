@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>The Exchange game</title>
+        <script src="../phaser/build/phaser.js"></script>
+    </head>
+    <body>
+
+    <script type="text/javascript">
+
+    window.onload = function() {
+
+        // mods by Patrick OReilly
+        // Twitter: @pato_reilly Web: http://patricko.byethost9.com
+
+        var game = new Phaser.Game(800, 700, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+
+        var rectangleGraphics;
+        var redCircleGraphics;
+        var yellowCircleGraphics;
+        var style;
+        var textObjective;
+        var textRules;
+        var playerBoxTitle;
+        var exchangeBoxTitle;
+
+        // bounds for player box, to aid in spawning
+        var playerBoxXMin = 25;
+        var playerBoxXMax = 375;
+        var playerBoxYMin = 265;
+        var playerBoxYMax = 575;
+
+        // bounds for exchange box, to aid in spawning
+        var exchangeBoxXMin = 425;
+        var exchangeBoxXMax = 775;
+        var exchangeBoxYMin = 265;
+        var exchangeBoxYMax = 575;
+
+        function preload() {
+
+            game.load.spritesheet('item', '../phaser-examples/examples/assets/buttons/number-buttons.png', 160, 160);
+            game.load.image('bg', '../phaser-examples/examples/assets/skies/deepblue.png');
+        }
+
+        function create(){
+
+            background = game.add.sprite(0, 0, 'bg');
+            background.height = game.height;
+            background.width = game.width;
+            
+            rectangleGraphics = game.add.graphics();
+            redCircleGraphics = game.add.graphics();
+            yellowCircleGraphics = game.add.graphics();
+
+            drawObjective();
+
+            drawRule();
+
+            drawPlayerBox();
+
+            drawExchangeBox();
+
+            spawnRedCounter(getPlayerBoxRandomSpawnCoOrdinates());
+
+            spawnYellowCounter(getPlayerBoxRandomSpawnCoOrdinates());
+
+        }
+
+        function drawObjective()
+        {
+            // draw the rectangle where objectives are going to be displayed
+            rectangleGraphics.beginFill(0x000000, 0.2);
+            rectangleGraphics.drawRect(0, 0, 800, 100);
+
+            style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+
+            //  The Text is positioned at 0, 0
+            textObjective = game.add.text(0, 0, "Get as many yellows as possible", style);
+            textObjective.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+
+            //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
+            textObjective.setTextBounds(0, 0, 800, 100);
+        }
+
+        function drawRule(){
+            // draw the rectangle where rules are going to be displayed
+            rectangleGraphics.beginFill(0x00FFFF, 0.2);
+            rectangleGraphics.drawRect(0, 100, 800, 100);
+
+            style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+
+             //  The Text is positioned at 0, 100
+            textRules = game.add.text(0, 0, "1 Red = 3 yellows", style);
+            textRules.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+
+            //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
+            textRules.setTextBounds(0, 100, 800, 100);
+        }
+
+        function drawPlayerBox()
+        {
+            // draw the rectangle where objectives are going to be displayed
+            rectangleGraphics.beginFill(0x80ff00, 0.2);
+            rectangleGraphics.drawRect(0, 200, 400, 400);
+
+            style = { font: "bold 14px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+
+            //  The Text is positioned at 0, 0
+            textObjective = game.add.text(0, 200, "Player Box", style);
+            textObjective.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+
+            //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
+            textObjective.setTextBounds(0, 0, 400, 40);
+        }
+
+        function drawExchangeBox()
+        {
+            // draw the rectangle where objectives are going to be displayed
+            rectangleGraphics.beginFill(0xff99ff, 0.2);
+            rectangleGraphics.drawRect(400, 200, 400, 400);
+
+            style = { font: "bold 14px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+
+            //  The Text is positioned at 0, 0
+            textObjective = game.add.text(400, 200, "Exchange Box", style);
+            textObjective.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+
+            //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
+            textObjective.setTextBounds(0, 0, 400, 40);
+        }
+
+        function spawnRedCounter(coOrdinates)
+        {
+            redCircleGraphics.beginFill(0xFF0000, 1);
+            redCircleGraphics.drawCircle(coOrdinates.x, coOrdinates.y, 50);
+            redCircleGraphics.inputEnabled = true;
+            redCircleGraphics.input.enableDrag();
+        }
+
+        function spawnYellowCounter(coOrdinates)
+        {
+            yellowCircleGraphics.beginFill(0xffff00, 1);
+            yellowCircleGraphics.drawCircle(coOrdinates.x, coOrdinates.y, 50);
+            yellowCircleGraphics.inputEnabled = true;
+            yellowCircleGraphics.input.enableDrag();
+        }
+
+        // Returns a random integer between min (included) and max (excluded)
+        // Using Math.round() will give you a non-uniform distribution!
+        function getRandomInt(min, max) {
+          return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function getPlayerBoxRandomSpawnCoOrdinates()
+        {
+            var x = getRandomInt(playerBoxXMin, playerBoxXMax);
+            var y = getRandomInt(playerBoxYMin, playerBoxYMax);
+
+            return {
+                'x': x,
+                'y' : y
+            };
+        }
+
+        function getExchangeBoxRandomSpawnCoOrdinates()
+        {
+            var x = getRandomInt(exchangeBoxXMin, exchangeBoxXMax);
+            var y = getRandomInt(exchangeBoxYMin, exchangeBoxYMax);
+
+            return {
+                'x': x,
+                'y' : y
+            };
+        }
+
+        function update(){}
+
+        function render(){}
+
+    };
+
+    </script>
+
+    </body>
+</html>
