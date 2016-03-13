@@ -201,7 +201,16 @@
                     var counter = game.world.children[i];
                     if (counter.x > exchangeBoxXMin && counter.x < exchangeBoxXMax &&
                         counter.y > exchangeBoxYMin && counter.y < exchangeBoxYMax){
-                        console.log(counter);
+                        //check if this is red counter
+                        if (counter.name == 'redCounter'){
+                            // we have a red, replace it with three yellows
+                            console.log(counter);
+                            counter.kill();
+                            // spawn three yellow counters
+                            spawnYellowCounter(getExchangeBoxRandomSpawnCoOrdinates());
+                            spawnYellowCounter(getExchangeBoxRandomSpawnCoOrdinates());
+                            spawnYellowCounter(getExchangeBoxRandomSpawnCoOrdinates());
+                        }
                     }
                 }
             }
