@@ -155,6 +155,7 @@
             redCircleGraphics.drawCircle(coOrdinates.x, coOrdinates.y, 50);
             redCircleGraphics.inputEnabled = true;
             redCircleGraphics.input.enableDrag();
+            redCircleGraphics.name = "redCounter";
         }
 
         function spawnYellowCounter(coOrdinates)
@@ -164,6 +165,7 @@
             yellowCircleGraphics.drawCircle(coOrdinates.x, coOrdinates.y, 50);
             yellowCircleGraphics.inputEnabled = true;
             yellowCircleGraphics.input.enableDrag();
+            yellowCircleGraphics.name = "yellowCounter";
         }
 
         // Returns a random integer between min (included) and max (excluded)
@@ -194,7 +196,20 @@
             };
         }
 
-        function exchange(){}
+        function exchange(){
+
+            for (var i = 0, len = game.world.children.length; i < len; i++) {
+                if (game.world.children[i].hasOwnProperty("name")){
+                    // grab only counters in exchange area
+                    var counter = game.world.children[i];
+                    if (counter.x > exchangeBoxXMin && counter.x < exchangeBoxXMax &&
+                        counter.y > exchangeBoxYMin && counter.y < exchangeBoxYMax){
+                        console.log(counter);
+                    }
+                }
+            }
+
+        }
 
         function update(){}
 
