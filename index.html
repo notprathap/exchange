@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <title>The Exchange game</title>
-        <script src="../phaser/build/phaser.js"></script>
+        <script src="js/phaser.js"></script>
     </head>
     <body>
 
@@ -40,9 +40,9 @@
 
         function preload() {
 
-            game.load.spritesheet('button', '../phaser-examples/examples/assets/buttons/flixel-button.png', 80, 20);
+            game.load.spritesheet('button', 'assets/flixel-button.png', 80, 20);
             game.load.spritesheet('counters', 'assets/counters.png', 85, 85);
-            game.load.image('bg', '../phaser-examples/examples/assets/skies/deepblue.png');
+            game.load.image('bg', 'assets/deepblue.png');
         }
 
         function create(){
