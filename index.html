@@ -24,6 +24,8 @@
         var textRules;
         var playerBoxTitle;
         var exchangeBoxTitle;
+        var button;
+        var buttonText;
 
         // bounds for player box, to aid in spawning
         var playerBoxXMin = 25;
@@ -39,7 +41,7 @@
 
         function preload() {
 
-            game.load.spritesheet('item', '../phaser-examples/examples/assets/buttons/number-buttons.png', 160, 160);
+            game.load.spritesheet('button', '../phaser-examples/examples/assets/buttons/flixel-button.png', 80, 20);
             game.load.image('bg', '../phaser-examples/examples/assets/skies/deepblue.png');
         }
 
@@ -48,10 +50,8 @@
             background = game.add.sprite(0, 0, 'bg');
             background.height = game.height;
             background.width = game.width;
-            
+
             rectangleGraphics = game.add.graphics();
-            redCircleGraphics = game.add.graphics();
-            yellowCircleGraphics = game.add.graphics();
 
             drawObjective();
 
@@ -61,8 +61,12 @@
 
             drawExchangeBox();
 
+            drawButton();
+
             spawnRedCounter(getPlayerBoxRandomSpawnCoOrdinates());
 
+            spawnYellowCounter(getPlayerBoxRandomSpawnCoOrdinates());
+            spawnYellowCounter(getPlayerBoxRandomSpawnCoOrdinates());
             spawnYellowCounter(getPlayerBoxRandomSpawnCoOrdinates());
 
         }
@@ -107,11 +111,11 @@
             style = { font: "bold 14px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
             //  The Text is positioned at 0, 0
-            textObjective = game.add.text(0, 200, "Player Box", style);
-            textObjective.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+            playerBoxTitle = game.add.text(0, 200, "Player Box", style);
+            playerBoxTitle.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
             //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
-            textObjective.setTextBounds(0, 0, 400, 40);
+            playerBoxTitle.setTextBounds(0, 0, 400, 40);
         }
 
         function drawExchangeBox()
@@ -123,15 +127,30 @@
             style = { font: "bold 14px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
             //  The Text is positioned at 0, 0
-            textObjective = game.add.text(400, 200, "Exchange Box", style);
-            textObjective.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+            exchangeBoxTitle = game.add.text(400, 200, "Exchange Box", style);
+            exchangeBoxTitle.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
             //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
-            textObjective.setTextBounds(0, 0, 400, 40);
+            exchangeBoxTitle.setTextBounds(0, 0, 400, 40);
+        }
+
+        function drawButton(){
+            button = game.add.button(340, 637, 'button', exchange, this, 2, 1, 0);
+            button.scale.setTo(1.5,1.5);
+
+            style = { font: "bold 14px Arial", fill: "#000", boundsAlignH: "center", boundsAlignV: "middle" };
+
+            //  The Text is positioned at 0, 0
+            buttonText = game.add.text(340, 608, "Exchange", style);
+            buttonText.setShadow(3, 3, 'rgba(240,240,240,0.5)', 2);
+
+            //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
+            buttonText.setTextBounds(0, 0, 120, 90);
         }
 
         function spawnRedCounter(coOrdinates)
         {
+            redCircleGraphics = game.add.graphics();
             redCircleGraphics.beginFill(0xFF0000, 1);
             redCircleGraphics.drawCircle(coOrdinates.x, coOrdinates.y, 50);
             redCircleGraphics.inputEnabled = true;
@@ -140,6 +159,7 @@
 
         function spawnYellowCounter(coOrdinates)
         {
+            yellowCircleGraphics = game.add.graphics();
             yellowCircleGraphics.beginFill(0xffff00, 1);
             yellowCircleGraphics.drawCircle(coOrdinates.x, coOrdinates.y, 50);
             yellowCircleGraphics.inputEnabled = true;
@@ -173,6 +193,8 @@
                 'y' : y
             };
         }
+
+        function exchange(){}
 
         function update(){}
 
