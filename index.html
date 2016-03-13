@@ -20,6 +20,7 @@
         var style;
         var textObjective;
         var textRules;
+        var textWin;
         var playerBoxTitle;
         var exchangeBoxTitle;
         var button;
@@ -76,10 +77,10 @@
             rectangleGraphics.beginFill(0x000000, 0.2);
             rectangleGraphics.drawRect(0, 0, 800, 100);
 
-            style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+            style = { font: "bold 24px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
             //  The Text is positioned at 0, 0
-            textObjective = game.add.text(0, 0, "Get as many yellows as possible", style);
+            textObjective = game.add.text(0, 0, "Get as many yellows as possible inside Player Box", style);
             textObjective.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
             //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
@@ -147,6 +148,20 @@
             buttonText.setTextBounds(0, 0, 120, 90);
         }
 
+        function drawWinText()
+        {
+            if (textWin === undefined){
+
+                style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+
+                textWin = game.add.text(0, 0, "You Win!", style);
+                textWin.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+
+                //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
+                textWin.setTextBounds(300, 350, 200, 100);
+            }
+        }
+
         function spawnRedCounter(coOrdinates)
         {
             var sprite = game.add.sprite(coOrdinates.x, coOrdinates.y, 'counters', 0);
@@ -204,7 +219,6 @@
                         //check if this is red counter
                         if (counter.name == 'redCounter'){
                             // we have a red, replace it with three yellows
-                            console.log(counter);
                             counter.kill();
                             // spawn three yellow counters
                             spawnYellowCounter(getExchangeBoxRandomSpawnCoOrdinates());
@@ -217,7 +231,28 @@
 
         }
 
-        function update(){}
+        function update(){
+            var yellowCount = 0;
+            for (var i = 0, len = game.world.children.length; i < len; i++) {
+                if (game.world.children[i].hasOwnProperty("name")){
+                    // grab only counters in player area
+                    var counter = game.world.children[i];
+                    if (counter.x > playerBoxXMin && counter.x < playerBoxXMax &&
+                        counter.y > playerBoxYMin && counter.y < playerBoxYMax){
+                        //check if this is red counter
+                        if (counter.name == 'yellowCounter'){
+                            // we have a red, replace it with three yellows
+                            yellowCount++;
+                            //console.log(counter);
+                        }
+                    }
+                }
+            }
+            if (yellowCount == 6){
+                // you win
+                drawWinText();
+            }
+        }
 
         function render(){}
 
