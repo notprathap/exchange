@@ -17,8 +17,6 @@
         var game = new Phaser.Game(800, 700, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
         var rectangleGraphics;
-        var redCircleGraphics;
-        var yellowCircleGraphics;
         var style;
         var textObjective;
         var textRules;
@@ -28,20 +26,21 @@
         var buttonText;
 
         // bounds for player box, to aid in spawning
-        var playerBoxXMin = 25;
-        var playerBoxXMax = 375;
-        var playerBoxYMin = 265;
-        var playerBoxYMax = 575;
+        var playerBoxXMin = 50;
+        var playerBoxXMax = 350;
+        var playerBoxYMin = 250;
+        var playerBoxYMax = 550;
 
         // bounds for exchange box, to aid in spawning
-        var exchangeBoxXMin = 425;
-        var exchangeBoxXMax = 775;
-        var exchangeBoxYMin = 265;
-        var exchangeBoxYMax = 575;
+        var exchangeBoxXMin = 450;
+        var exchangeBoxXMax = 750;
+        var exchangeBoxYMin = 250;
+        var exchangeBoxYMax = 550;
 
         function preload() {
 
             game.load.spritesheet('button', '../phaser-examples/examples/assets/buttons/flixel-button.png', 80, 20);
+            game.load.spritesheet('counters', 'assets/counters.png', 85, 85);
             game.load.image('bg', '../phaser-examples/examples/assets/skies/deepblue.png');
         }
 
@@ -150,22 +149,20 @@
 
         function spawnRedCounter(coOrdinates)
         {
-            redCircleGraphics = game.add.graphics();
-            redCircleGraphics.beginFill(0xFF0000, 1);
-            redCircleGraphics.drawCircle(coOrdinates.x, coOrdinates.y, 50);
-            redCircleGraphics.inputEnabled = true;
-            redCircleGraphics.input.enableDrag();
-            redCircleGraphics.name = "redCounter";
+            var sprite = game.add.sprite(coOrdinates.x, coOrdinates.y, 'counters', 0);
+            sprite.scale.setTo(0.7,0.7);
+            sprite.inputEnabled = true;
+            sprite.input.enableDrag();
+            sprite.name = "redCounter";
         }
 
         function spawnYellowCounter(coOrdinates)
         {
-            yellowCircleGraphics = game.add.graphics();
-            yellowCircleGraphics.beginFill(0xffff00, 1);
-            yellowCircleGraphics.drawCircle(coOrdinates.x, coOrdinates.y, 50);
-            yellowCircleGraphics.inputEnabled = true;
-            yellowCircleGraphics.input.enableDrag();
-            yellowCircleGraphics.name = "yellowCounter";
+            var sprite = game.add.sprite(coOrdinates.x, coOrdinates.y, 'counters', 5);
+            sprite.scale.setTo(0.7,0.7);
+            sprite.inputEnabled = true;
+            sprite.input.enableDrag();
+            sprite.name = "yellowCounter";
         }
 
         // Returns a random integer between min (included) and max (excluded)
