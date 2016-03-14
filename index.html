@@ -21,16 +21,16 @@
         var textObjective;
         var textRules;
         var textWin;
-        var playerBoxTitle;
+        var storageBoxTitle;
         var exchangeBoxTitle;
         var button;
         var buttonText;
 
         // bounds for player box, to aid in spawning
-        var playerBoxXMin = 50;
-        var playerBoxXMax = 350;
-        var playerBoxYMin = 250;
-        var playerBoxYMax = 550;
+        var storageBoxXMin = 50;
+        var storageBoxXMax = 350;
+        var storageBoxYMin = 250;
+        var storageBoxYMax = 550;
 
         // bounds for exchange box, to aid in spawning
         var exchangeBoxXMin = 450;
@@ -57,17 +57,17 @@
 
             drawRule();
 
-            drawPlayerBox();
+            drawStorageBox();
 
             drawExchangeBox();
 
             drawButton();
 
-            spawnRedCounter(getPlayerBoxRandomSpawnCoOrdinates());
+            spawnRedCounter(getStorageBoxRandomSpawnCoOrdinates());
 
-            spawnYellowCounter(getPlayerBoxRandomSpawnCoOrdinates());
-            spawnYellowCounter(getPlayerBoxRandomSpawnCoOrdinates());
-            spawnYellowCounter(getPlayerBoxRandomSpawnCoOrdinates());
+            spawnYellowCounter(getStorageBoxRandomSpawnCoOrdinates());
+            spawnYellowCounter(getStorageBoxRandomSpawnCoOrdinates());
+            spawnYellowCounter(getStorageBoxRandomSpawnCoOrdinates());
 
         }
 
@@ -80,7 +80,7 @@
             style = { font: "bold 24px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
             //  The Text is positioned at 0, 0
-            textObjective = game.add.text(0, 0, "Get as many yellows as possible inside Player Box", style);
+            textObjective = game.add.text(0, 0, "Get as many yellows as possible inside Storage Box", style);
             textObjective.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
             //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
@@ -102,7 +102,7 @@
             textRules.setTextBounds(0, 100, 800, 100);
         }
 
-        function drawPlayerBox()
+        function drawStorageBox()
         {
             // draw the rectangle where objectives are going to be displayed
             rectangleGraphics.beginFill(0x80ff00, 0.2);
@@ -111,11 +111,11 @@
             style = { font: "bold 14px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
             //  The Text is positioned at 0, 0
-            playerBoxTitle = game.add.text(0, 200, "Player Box", style);
-            playerBoxTitle.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+            storageBoxTitle = game.add.text(0, 200, "Storage Box", style);
+            storageBoxTitle.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
             //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
-            playerBoxTitle.setTextBounds(0, 0, 400, 40);
+            storageBoxTitle.setTextBounds(0, 0, 400, 40);
         }
 
         function drawExchangeBox()
@@ -186,10 +186,10 @@
           return Math.floor(Math.random() * (max - min)) + min;
         }
 
-        function getPlayerBoxRandomSpawnCoOrdinates()
+        function getStorageBoxRandomSpawnCoOrdinates()
         {
-            var x = getRandomInt(playerBoxXMin, playerBoxXMax);
-            var y = getRandomInt(playerBoxYMin, playerBoxYMax);
+            var x = getRandomInt(storageBoxXMin, storageBoxXMax);
+            var y = getRandomInt(storageBoxYMin, storageBoxYMax);
 
             return {
                 'x': x,
@@ -237,8 +237,8 @@
                 if (game.world.children[i].hasOwnProperty("name")){
                     // grab only counters in player area
                     var counter = game.world.children[i];
-                    if (counter.x > playerBoxXMin && counter.x < playerBoxXMax &&
-                        counter.y > playerBoxYMin && counter.y < playerBoxYMax){
+                    if (counter.x > storageBoxXMin && counter.x < storageBoxXMax &&
+                        counter.y > storageBoxYMin && counter.y < storageBoxYMax){
                         //check if this is red counter
                         if (counter.name == 'yellowCounter'){
                             // we have a red, replace it with three yellows
